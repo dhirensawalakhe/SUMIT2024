@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Sumit Wankhede BJP</title>
+  
+  <!-- Open Graph meta tags for social media preview -->
+  <meta property="og:title" content="Support Sumit Wankhede 2024">
+  <meta property="og:description" content="Vote for your bright future">
+  <meta property="og:image" content="https://dhirensawalakhe.github.io/BJP2024/thumbnail.jpg">
+  <meta property="og:url" content="https://dhirensawalakhe.github.io/BJP2024/">
+  <meta property="og:type" content="website">
+  <meta property="twitter:card" content="summary_large_image">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+    .template-container {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      aspect-ratio: 6 / 7;
+      background-image: url('template.jpg');
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 20px;
+    }
+    .orange-box {
+      position: absolute;
+      top: 19.7%;
+      left: 8.3%;
+      width: 23%;
+      height: 25.7%;
+      border-radius: 5%;
+      overflow: hidden;
+      border: 2px solid rgb(248, 248, 248);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .orange-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .upload-label, .crop-button, .download-button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 5px;
+    }
+    .crop-container img {
+      max-width: 100%;
+    }
+    .crop-container {
+      display: none;
+      width: 90%;
+      max-width: 400px;
+    }
+    .loading-message {
+      display: none;
+      font-size: 18px;
+      color: #333;
+      margin-top: 20px;
+    }
+    input[type="file"] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Support BJP <br>Support Sumit Wankhede</h2>
+
+  <label for="fileInput" class="upload-label">Insert Photo</label>
+  <input type="file" accept="image/*" id="fileInput">
+
+  <button class="crop-button" id="cropButton" style="display: none;">Crop & Place Image</button>
+  <button class="download-button" id="downloadButton" style="display: none;">Download Template</button>
+
+  <div class="crop-container" id="cropContainer">
+    <img id="cropImage" alt="Crop your photo">
+  </div>
+
+  <div class="template-container" id="templateContainer">
+    <div class="orange-box">
+      <img id="uploadedImage" alt="">
+    </div>
+  </div>
+
+  <div class="loading-message" id="loadingMessage">Processing your image...</div>
+
+  <script>
+    let cropper;
+    let uploadedImageSrc = "";
+
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('cropImage').src = e.target.result;
+          document.getElementById('cropContainer').style.display = 'block';
+          document.getElementById('cropButton').style.display = 'inline-block';
+
+          if (cropper) cropper.destroy();
+          cropper = new Cropper(document.getElementById('cropImage'), {
+            aspectRatio: 1,
+            viewMode: 1,
+            autoCropArea: 1
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('cropButton').addEventListener('click', function() {
+      const canvas = cropper.getCroppedCanvas({
+        width: 282,
+        height: 270
+      });
+
+      document.getElementById('uploadedImage').src = canvas.toDataURL();
+      uploadedImageSrc = canvas.toDataURL();
+      document.getElementById('cropContainer').style.display = 'none';
+      document.getElementById('cropButton').style.display = 'none';
+      document.getElementById('downloadButton').style.display = 'inline-block';
+    });
+
+    document.getElementById('downloadButton').addEventListener('click', function() {
+      document.getElementById('loadingMessage').style.display = 'block';
+
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      canvas.width = 1000;
+      canvas.height = 1200;
+
+      const templateImage = new Image();
+      templateImage.src = 'template.jpg';
+
+      templateImage.onload = function() {
+        context.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
+        const userImage = new Image();
+        userImage.src = uploadedImageSrc;
+
+        userImage.onload = function() {
+          const boxX = canvas.width * 0.104;
+          const boxY = canvas.height * 0.20;
+          const boxWidth = canvas.width * 0.225;
+          const boxHeight = canvas.height * 0.258;
+          const borderRadius = 12; // Border radius in pixels
+
+          // Clip with rounded corners
+          context.beginPath();
+          context.moveTo(boxX + borderRadius, boxY);
+          context.lineTo(boxX + boxWidth - borderRadius, boxY);
+          context.quadraticCurveTo(boxX + boxWidth, boxY, boxX + boxWidth, boxY + borderRadius);
+          context.lineTo(boxX + boxWidth, boxY + boxHeight - borderRadius);
+          context.quadraticCurveTo(boxX + boxWidth, boxY + boxHeight, boxX + boxWidth - borderRadius, boxY + boxHeight);
+          context.lineTo(boxX + borderRadius, boxY + boxHeight);
+          context.quadraticCurveTo(boxX, boxY + boxHeight, boxX, boxY + boxHeight - borderRadius);
+          context.lineTo(boxX, boxY + borderRadius);
+          context.quadraticCurveTo(boxX, boxY, boxX + borderRadius, boxY);
+          context.closePath();
+          context.clip();
+
+          // Draw the cropped image within the clipped area
+          context.drawImage(userImage, boxX, boxY, boxWidth, boxHeight);
+
+          // Create a download link
+          canvas.toBlob(async (blob) => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Support for Sumit Wankhede.png';
+            link.click();
+            
+            if (navigator.share) {
+              try {
+                await navigator.share({
+                  title: 'Check out this photo!',
+                  text: 'Support Sumit Wankhede!',
+                  files: [file]
+                });
+                console.log('Shared successfully!');
+              } catch (err) {
+                console.error('Error sharing:', err);
+              }
+            }
+            
+            document.getElementById('loadingMessage').style.display = 'none';
+          }, 'image/png');
+        };
+
+        userImage.onerror = function() {
+          console.error('Failed to load the cropped user image');
+          document.getElementById('loadingMessage').style.display = 'none';
+        };
+      };
+
+      templateImage.onerror = function() {
+        console.error('Failed to load the template image');
+        document.getElementById('loadingMessage').style.display = 'none';
+      };
+    });
+  </script>
+
+</body>
+</html>
