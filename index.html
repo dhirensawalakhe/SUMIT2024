@@ -28,22 +28,22 @@
     .template-container {
       position: relative;
       width: 100%;
-      max-width: 500px;
+      max-width:500px;
       aspect-ratio: 6 / 7;
-      background-image: url('template.jpg');
+      background-image: url('template1.jpg');
       background-size: cover;
       background-position: center;
       margin-bottom: 20px;
     }
     .orange-box {
       position: absolute;
-      top: 19.7%;
-      left: 8.3%;
-      width: 23%;
-      height: 25.7%;
+      top: 21.2%;
+      left: 6%;
+      width: 25%;
+      height: 27%;
       border-radius: 5%;
       overflow: hidden;
-      border: 2px solid rgb(248, 248, 248);
+      border: 2px solid rgb(244, 241, 241);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -149,7 +149,7 @@
       canvas.height = 1200;
 
       const templateImage = new Image();
-      templateImage.src = 'template.jpg';
+      templateImage.src = 'template1.jpg';
 
       templateImage.onload = function() {
         context.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
@@ -158,9 +158,9 @@
 
         userImage.onload = function() {
           const boxX = canvas.width * 0.104;
-          const boxY = canvas.height * 0.20;
+          const boxY = canvas.height * 0.211;
           const boxWidth = canvas.width * 0.225;
-          const boxHeight = canvas.height * 0.258;
+          const boxHeight = canvas.height * 0.273;
           const borderRadius = 12; // Border radius in pixels
 
           // Clip with rounded corners
