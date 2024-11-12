@@ -182,11 +182,8 @@
 
           // Create a download link
           canvas.toBlob(async (blob) => {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'Support for Sumit Wankhede.png';
-            link.click();
-            
+            const file = new File([blob], 'Support for Sumit Wankhede.png', { type: 'image/png' });
+
             if (navigator.share) {
               try {
                 await navigator.share({
@@ -199,7 +196,14 @@
                 console.error('Error sharing:', err);
               }
             }
-            
+            else {
+              // Fallback for browsers that don't support sharing
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = 'Support for Sumit Wankhede.png';
+              link.click();
+            }
+
             document.getElementById('loadingMessage').style.display = 'none';
           }, 'image/png');
         };
